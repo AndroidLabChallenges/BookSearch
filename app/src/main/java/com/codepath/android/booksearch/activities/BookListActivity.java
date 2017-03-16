@@ -2,6 +2,7 @@ package com.codepath.android.booksearch.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -38,6 +39,11 @@ public class BookListActivity extends AppCompatActivity {
         lvBooks.setAdapter(bookAdapter);
         // Fetch the data remotely
         fetchBooks("Oscar Wilde");
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBarBookSearch);
+        // Sets the Toolbar to act as the ActionBar for this Activity window.
+        // Make sure the toolbar exists in the activity and is not null
+        setSupportActionBar(toolbar);
     }
 
     // Executes an API call to the OpenLibrary search endpoint, parses the results
@@ -54,13 +60,15 @@ public class BookListActivity extends AppCompatActivity {
                         docs = response.getJSONArray("docs");
                         // Parse json array into array of model objects
                         final ArrayList<Book> books = Book.fromJson(docs);
-                        // Remove all books from the adapter
-                        bookAdapter.clear();
-                        // Load model objects into the adapter
-                        for (Book book : books) {
-                            bookAdapter.add(book); // add book through the adapter
-                        }
-                        bookAdapter.notifyDataSetChanged();
+
+                        bookAdapter.addAll(books);
+//                        // Remove all books from the adapter
+//                        bookAdapter.clear();
+//                        // Load model objects into the adapter
+//                        for (Book book : books) {
+//                            bookAdapter.add(book); // add book through the adapter
+//                        }
+//                        bookAdapter.notifyDataSetChanged();
                     }
                 } catch (JSONException e) {
                     // Invalid JSON format, show appropriate error.
