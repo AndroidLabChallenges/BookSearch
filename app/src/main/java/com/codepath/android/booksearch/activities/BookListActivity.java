@@ -1,12 +1,16 @@
 package com.codepath.android.booksearch.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.codepath.android.booksearch.R;
@@ -18,6 +22,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -46,6 +51,8 @@ public class BookListActivity extends AppCompatActivity {
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
+
+        SetupListViewListener();
     }
 
     // Executes an API call to the OpenLibrary search endpoint, parses the results
@@ -81,6 +88,19 @@ public class BookListActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+    }
+
+    private void SetupListViewListener() {
+        lvBooks.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View item, int pos, long id){
+                Intent dispDetail = new Intent(BookListActivity.this, BookDetailActivity.class);
+                dispDetail.putExtra("dispDetail", Parcels.wrap(bookAdapter.getItem(pos)));
+
+                Log.i("disp detail","FOO");
+                startActivity(dispDetail);
             }
         });
     }

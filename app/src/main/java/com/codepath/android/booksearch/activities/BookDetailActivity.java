@@ -1,5 +1,6 @@
 package com.codepath.android.booksearch.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -8,11 +9,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.android.booksearch.R;
+import com.codepath.android.booksearch.models.Book;
+import com.squareup.picasso.Picasso;
+
+import org.parceler.Parcels;
 
 public class BookDetailActivity extends AppCompatActivity {
     private ImageView ivBookCover;
     private TextView tvTitle;
     private TextView tvAuthor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +30,11 @@ public class BookDetailActivity extends AppCompatActivity {
         tvAuthor = (TextView) findViewById(R.id.tvAuthor);
 
         // Extract book object from intent extras
+        Intent inbound = getIntent();
+        Book bookDetail = Parcels.unwrap(getIntent().getParcelableExtra("dispDetail"));
+        tvAuthor.setText(bookDetail.getAuthor());
+        tvTitle.setText(bookDetail.getTitle());
+        Picasso.with(this).load(bookDetail.getCoverUrl()).fit().centerCrop().into(ivBookCover);
 
         // Use book object to populate data into views
     }
