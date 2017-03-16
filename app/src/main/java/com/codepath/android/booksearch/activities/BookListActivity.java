@@ -48,9 +48,10 @@ public class BookListActivity extends AppCompatActivity {
         fetchBooks("Oscar Wilde");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBarBookSearch);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
-        setSupportActionBar(toolbar);
 
         SetupListViewListener();
     }
